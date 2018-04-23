@@ -1,9 +1,11 @@
 package com.ciphra.android.criminalintent;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -11,7 +13,9 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import java.text.DateFormat;
 import java.util.List;
+import java.util.Locale;
 
 /**
  * Created by Ciphra on 4/16/18.
@@ -20,35 +24,37 @@ import java.util.List;
 public class CrimeListFragment extends Fragment {
     private RecyclerView mCrimeRecyclerView;
     private CrimeAdapter mAdapter;
-    private TextView mTitleTextView;
-    private TextView mDateTextView;
+
     private ImageView mSolvedImageView;
 
     private class CrimeHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
         private Crime mCrime;
+        private TextView mTitleTextView;
+        private TextView mDateTextView;
 
         public void bind(Crime crime){
             mCrime = crime;
             mTitleTextView.setText(mCrime.getTitle());
-            mDateTextView.setText(mCrime.getDate().toString());
+            DateFormat df = DateFormat.getDateInstance(DateFormat.LONG, Locale.US);
+            mDateTextView.setText(df.format(mCrime.getDate()));
             mSolvedImageView.setVisibility(crime.isSolved() ? View.VISIBLE : View.GONE);
 
         }
 
-        public CrimeHolder(LayoutInflater inflater, ViewGroup parent, int viewType){
+        public CrimeHolder(LayoutInflater inflater, ViewGroup parent){
 
-            super(inflater.inflate(viewType, parent, false));
+            super(inflater.inflate(R.layout.list_item_crime, parent, false));
+            itemView.setOnClickListener(this);
 
             mTitleTextView = (TextView) itemView.findViewById((R.id.crime_title));
             mDateTextView = (TextView) itemView.findViewById(R.id.crime_date);
             mSolvedImageView = (ImageView) itemView.findViewById(R.id.crime_solved);
-
-
         }
 
         @Override
         public void onClick(View v) {
-            Toast.makeText(getActivity(), mCrime.getTitle() + " clicked!", Toast.LENGTH_SHORT).show();
+            Intent intent = CrimeActivity.newIntent(getActivity(), mCrime.getId());
+            startActivity(intent);
         }
     }
 
@@ -62,8 +68,7 @@ public class CrimeListFragment extends Fragment {
         @Override
         public CrimeHolder onCreateViewHolder(ViewGroup parent, int viewType) {
             LayoutInflater layoutInflater = LayoutInflater.from(getActivity());
-
-            return new CrimeHolder(layoutInflater, parent, viewType);
+            return new CrimeHolder(layoutInflater, parent);
         }
 
         @Override
