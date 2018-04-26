@@ -20,19 +20,5 @@ android:orientation="vertical" >
         android:layout_alignParentTop="true"
         android:orientation="horizontal">
 
-        <Button
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:id="@+id/first_jump"
-            android:layout_gravity="top"
-            android:text="Jump to First"/>
-
-        <Button
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:id="@+id/last_jump"
-
-            android:layout_gravity="top"
-            android:text="Jump to Last"/>
     </LinearLayout>
 </RelativeLayout>

@@ -26,6 +26,11 @@ public class CrimeLab {
 
     }
 
+        public void addCrime(Crime c){
+        mCrimes.add(c);
+        crimeDictonary.put(c.getId(), c);
+        }
+
     private CrimeLab(Context context){
         mCrimes = new ArrayList<>();
         crimeDictonary = new HashMap<>();
@@ -33,8 +38,7 @@ public class CrimeLab {
             Crime crime = new Crime();
             crime.setTitle("Crime #" + i);
             crime.setSolved(i%2 ==0);
-            mCrimes.add(crime);
-            crimeDictonary.put(crime.getId(), crime);
+
          //  crime.setRequiresPolice(i%3 ==0);
         }
     }
