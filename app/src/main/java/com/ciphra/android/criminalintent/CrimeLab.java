@@ -21,7 +21,6 @@ public class CrimeLab {
     private Context mContext;
     private SQLiteDatabase mDatabase;
     private static CrimeLab sCrimeLab;
-    private static HashMap<UUID, Crime> crimeDictonary;
 
 
     public static CrimeLab get(Context context) {
@@ -39,13 +38,11 @@ public class CrimeLab {
         }
 
         public void removeCrime (Crime c){
-            crimeDictonary.remove(c.getId());
         }
 
     private CrimeLab(Context context){
         mContext = context.getApplicationContext();
         mDatabase = new CrimeBaseHelper(mContext).getWritableDatabase();
-        crimeDictonary = new HashMap<>();
     }
 
     public void updateCrime(Crime crime){
