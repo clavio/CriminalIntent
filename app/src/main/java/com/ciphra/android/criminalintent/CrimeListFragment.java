@@ -102,6 +102,10 @@ public class CrimeListFragment extends Fragment {
             return R.layout.list_item_crime;
 
         }
+
+        public void setCrimes(List<Crime> crimes){
+            mCrimes = crimes;
+        }
     }
 
     @Override
@@ -137,6 +141,7 @@ public class CrimeListFragment extends Fragment {
             mCrimeRecyclerView.setAdapter(mAdapter);
         }
         else{
+            mAdapter.setCrimes(crimes);
             mAdapter.notifyItemChanged(currentCrime);
         }
         updateSubtitle();
