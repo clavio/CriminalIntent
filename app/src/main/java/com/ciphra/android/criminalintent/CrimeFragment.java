@@ -29,6 +29,7 @@ public class CrimeFragment extends Fragment {
     private Button mDateButton;
     private EditText mTitleField;
     private CheckBox mSolvedCheckBox;
+    private Button mDeleteButton;
 
     private static final String ARG_CRIME_ID = "crime_id";
 
@@ -46,6 +47,13 @@ public class CrimeFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState){
         View v = inflater.inflate(R.layout.fragment_crime, container, false);
+        mDeleteButton = (Button) v.findViewById(R.id.delete_button);
+        mDeleteButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                deleteThisCrime();
+            }
+        });
         mTitleField = (EditText) v.findViewById(R.id.crime_title);
         mTitleField.setText(mCrime.getTitle());
         mTitleField.addTextChangedListener(new TextWatcher(){
@@ -119,6 +127,20 @@ public class CrimeFragment extends Fragment {
 
     }
 
+    public void deleteThisCrime (){
+
+        CrimeLab crimeLab = CrimeLab.get(getActivity());
+        crimeLab.removeCrime(mCrime);
+        Intent intent = new Intent(this.getContext(), CrimeListActivity.class);
+        startActivity(intent);
+    }
+
+    @Override
+    public void onPause(){
+        super.onPause();
+
+        CrimeLab.get(getActivity()).updateCrime(mCrime);
+    }
 
 
 }
